@@ -193,6 +193,7 @@ else
         Replace "<db:attribute name=\"tracks\">" ""
         Replace "</db:attribute>" ""
         RegexpReplace "_" ""
+        RegexpReplace "[\d\s.]*" ""
         sayRest
         say "|"
         moveline 1
