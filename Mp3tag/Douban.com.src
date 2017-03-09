@@ -27,6 +27,11 @@
 # 豆瓣图片cdn升级后失效，sakinijino于2009-09-03在beta1.3基础上修复，消除了对于cdn域名的依赖。
 # sakinijino.com
 #
+# #####################################################################
+#
+# 在sakinijino的基础上修复了https的问题，现可正常使用。
+# @弘子_Fr0stbyteR
+#
 [Name]=douban.com
 [BasedOn]=http://api.douban.com
 [IndexUrl]=http://api.douban.com/music/subjects?q=%s&max-results=50&start-index=1
@@ -68,8 +73,8 @@ do
   
   # Preview
   GotoChar 1
-  findinline "<link href=\"http://music.douban.com/subject/"
-  say "http://music.douban.com/subject/"
+  findinline "<link href=\"https://music.douban.com/subject/"
+  say "https://music.douban.com/subject/"
   saynextnumber
   say "|"
 	
