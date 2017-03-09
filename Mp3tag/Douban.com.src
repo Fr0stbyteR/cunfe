@@ -1,4 +1,4 @@
-﻿# Mp3tag parsing for Douban Web Service (v2.36 and above)
+# Mp3tag parsing for Douban Web Service (v2.36 and above)
 # 
 # Web source created and maintained by yoyicue
 # Last modified 2009-01-19
@@ -27,11 +27,6 @@
 # 豆瓣图片cdn升级后失效，sakinijino于2009-09-03在beta1.3基础上修复，消除了对于cdn域名的依赖。
 # sakinijino.com
 #
-# #####################################################################
-#
-# 在sakinijino的基础上修复了https的问题，现可正常使用。
-# @弘子_Fr0stbyteR
-#
 [Name]=douban.com
 [BasedOn]=http://api.douban.com
 [IndexUrl]=http://api.douban.com/music/subjects?q=%s&max-results=50&start-index=1
@@ -46,7 +41,7 @@
 #					查询页
 # ###################################################################
 # Uncomment the following line if you want to write some debug output
-# debug "on" "c:\debug_douban_A.html" "10"
+debug "on" "c:\Users\Shihong\AppData\Roaming\Mp3tag\data\sources\debug_douban_A.html" "10"
 
 findline "<entry>"
 do
@@ -105,7 +100,7 @@ while "<entry>"
 #					专辑页
 # ###################################################################
 # Uncomment the following line if you want to write some debug output
-# debug "on" "c:\debug_douban_B.html" "10"
+debug "on" "c:\Users\Shihong\AppData\Roaming\Mp3tag\data\sources\debug_douban_B.html" "10"
 
 #Output
 findline "<id>"
@@ -179,23 +174,25 @@ if "<db:attribute index="
     moveline 1
     unspace
   while "<db:attribute index="
-endif
-
-gotoline 1
-# Tracks Mode 2
-findline "<db:attribute name=\"tracks\">" 1 1
-unspace
-if "<db:attribute name=\"tracks\">"
-  findinline "</db:attr" 1 1
-  if "ibute"
-    gotochar 1
+else
+  gotoline 1
+  # Tracks Mode 2
+  findline "<db:attribute name=\"tracks\">" 1 1
+  unspace
+  if "<db:attribute name=\"tracks\">"
+    findinline "name=\"tracks\">"
     do
-      findinline "tracks\">"
-      outputto "tracks"
-      sayuntil "</db:attribute>"
-      say "|"
-      moveline 1
-      unspace
-    while "<db:attribute name=\"tracks\">"
+      ifNot "_<"
+        outputto "tracks"
+        Replace "<db:attribute name=\"tracks\">" ""
+        Replace "</db:attribute>" ""
+        RegexpReplace "_" ""
+        sayRest
+        say "|"
+        moveline 1
+        unspace
+        RegexpReplace "^" "_"
+      endif
+    while "_" 100
   endif
 endif
